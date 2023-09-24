@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -18,5 +19,5 @@ public class UserDTO {
     private Long id;
     private String username;
     private String password;
-    private Set<Long> role_id;
+    private Set<String> str_roles;
 }

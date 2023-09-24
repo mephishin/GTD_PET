@@ -1,10 +1,9 @@
-package com.example.gtd.services;
+package com.example.gtd.service.dao;
 
 import com.example.gtd.dao.entity.User;
 import com.example.gtd.dao.repo.UserRepo;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Data
@@ -46,4 +44,13 @@ public class UserService implements UserDetailsService {
     public List<User> findAll() {
         return userRepo.findAll();
     }
+
+    public User update(User user) {
+        return userRepo.save(user);
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepo.findById(id);
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.example.gtd.services;
+package com.example.gtd.service.dao;
 
 import com.example.gtd.dao.entity.Thing;
 import com.example.gtd.dao.repo.ThingRepo;
@@ -25,6 +25,10 @@ public class ThingService {
     }
 
     public Thing save(Thing thing) {
+        return repo.save(thing);
+    }
+
+    public Thing update(Thing thing) {
         return repo.save(thing);
     }
 }

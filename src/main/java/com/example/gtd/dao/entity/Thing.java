@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 
 @Entity
 @Table(name = "thing", schema = "thing")
@@ -21,8 +23,14 @@ public class Thing {
     @Column(name = "thing_name", unique = true, nullable = false)
     private String thingName;
 
-    @ManyToOne()
-    private User user;
+    @ManyToMany()
+    @Column(name = "user_id")
+    @JoinTable(
+            name = "thing_user",
+            joinColumns = { @JoinColumn(name = "thing_id")},
+            inverseJoinColumns = { @JoinColumn(name = "user_id")}
+    )
+    private Set<User> user;
 
     @Column(name = "thing_kind", unique = false, nullable = false)
     private String thingKind;

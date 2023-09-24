@@ -31,14 +31,18 @@ public class User implements UserDetails {
     private String password;
 
     @Column(name = "role_id", nullable = false)
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id")
-    private Set<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = { @JoinColumn(name = "user_id")},
+            inverseJoinColumns = { @JoinColumn(name = "role_id")}
+            )
+    private Set<Role> roles = new HashSet<>();
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        return this.roles.stream().map(role -> new SimpleGrantedAuthority(role.getRolename())).collect(Collectors.toList());
     }
 
     @Override
@@ -69,5 +73,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void add_role(Role role) {
+        this.roles.add(role);
     }
 }

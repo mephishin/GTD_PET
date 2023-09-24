@@ -1,6 +1,7 @@
 package com.example.gtd.dao.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,8 @@ import java.util.Set;
 @Entity
 @Table(name = "gtd_role")
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class Role {
 
     @Id
@@ -18,9 +20,11 @@ public class Role {
     @Column(name = "role_id")
     private Long id;
 
-    @Column(name = "rolename", unique = true, nullable = false)
-    private String name;
-//    @ManyToMany()
+    @Column(name = "rolename", nullable = false)
+    private String rolename;
+
+
+//    @ManyToMany(mappedBy = "roles")
 //    @Column(name = "user_id")
 //    private Set<User> users;
 }

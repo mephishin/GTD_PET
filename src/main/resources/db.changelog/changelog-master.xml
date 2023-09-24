@@ -17,9 +17,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="thing_kind" type="varchar(200)"/>
-            <column name="user_id" type="bigserial">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
     </changeSet>
     <changeSet id="create_user_and_role_table" author="epishin">
@@ -33,61 +30,54 @@
             <column name="password" type="varchar(200)">
                 <constraints nullable="false"/>
             </column>
-            <column name="role_id" type="bigint">
-            </column>
         </createTable>
         <createTable tableName="gtd_role" schemaName="thing">
             <column name="role_id" type="bigserial">
                 <constraints primaryKey="true"/>
             </column>
             <column name="rolename" type="varchar(200)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="create_relation_between_user_and_role_2" author="epishin">
-        <addForeignKeyConstraint baseTableSchemaName="thing" baseTableName="gtd_user" baseColumnNames="role_id" constraintName="fk_user_role" referencedTableSchemaName="thing" referencedTableName="gtd_role"
-                                 referencedColumnNames="role_id"/>
-        <dropColumn tableName="gtd_role" schemaName="thing" columnName="user_id"/>
+    <changeSet id="create_table_user_roles_and_create_relation" author="epishin">
+        <createTable tableName="user_role" schemaName="thing">
+            <column name="user_id" type="bigserial">
+                <constraints primaryKey="true" unique="false"/>
+            </column>
+            <column name="role_id" type="bigserial">
+                <constraints primaryKey="true" unique="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableSchemaName="thing" baseTableName="user_role" baseColumnNames="role_id"
+                                 constraintName="fk_user_role_gtd_role" referencedTableSchemaName="thing"
+                                 referencedTableName="gtd_role" referencedColumnNames="role_id"/>
+        <addForeignKeyConstraint baseTableSchemaName="thing" baseTableName="user_role" baseColumnNames="user_id"
+                                 constraintName="fk_user_role_gtd_user" referencedTableSchemaName="thing"
+                                 referencedTableName="gtd_user" referencedColumnNames="user_id"/>
     </changeSet>
-    <changeSet id="create_relation_between_user_and_thing" author="epishin">
-        <addForeignKeyConstraint baseTableSchemaName="thing" baseTableName="thing" baseColumnNames="user_id" constraintName="fk_thing_user" referencedTableSchemaName="thing" referencedTableName="gtd_user"
-                                 referencedColumnNames="user_id"/>
+    <changeSet id="create_table_thing_user_and_make_relations_between_user_and_thing" author="epishin">
+        <createTable tableName="thing_user" schemaName="thing">
+            <column name="thing_id" type="bigserial">
+                <constraints primaryKey="true" unique="true"/>
+            </column>
+            <column name="user_id" type="bigserial">
+                <constraints primaryKey="true" unique="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableSchemaName="thing" baseTableName="thing_user" baseColumnNames="thing_id"
+                                 constraintName="fk_thing_user_thing"  referencedTableSchemaName="thing"
+                                 referencedTableName="thing" referencedColumnNames="thing_id"/>
+        <addForeignKeyConstraint baseTableSchemaName="thing" baseTableName="thing_user" baseColumnNames="user_id"
+                                 constraintName="fk_thing_user_gtd_user" referencedTableSchemaName="thing"
+                                 referencedTableName="gtd_user" referencedColumnNames="user_id"/>
     </changeSet>
-    <changeSet id="insert_test_data" author="epishin">
+    <changeSet id="insert_roles_into_gtd_roles" author="epishin">
         <insert schemaName="thing" tableName="gtd_role">
-            <column name="role_id" value="1"/>
             <column name="rolename" value="ROLE_ADMIN"/>
         </insert>
         <insert schemaName="thing" tableName="gtd_role">
-            <column name="role_id" value="2"/>
             <column name="rolename" value="ROLE_USER"/>
-        </insert>
-        <insert schemaName="thing" tableName="gtd_user">
-            <column name="user_id" value="1"/>
-            <column name="password" value="admin"/>
-            <column name="username" value="admin"/>
-            <column name="role_id" value="1"/>
-        </insert>
-        <insert schemaName="thing" tableName="gtd_user">
-            <column name="user_id" value="2"/>
-            <column name="password" value="user"/>
-            <column name="username" value="user"/>
-            <column name="role_id" value="2"/>
-        </insert>
-        <insert schemaName="thing" tableName="thing">
-            <column name="thing_id" value="1"/>
-            <column name="thing_name" value="do Engl"/>
-            <column name="thing_kind" value="about 1 hour"/>
-            <column name="user_id" value="1"/>
-        </insert>
-        <insert schemaName="thing" tableName="thing">
-            <column name="thing_id" value="2"/>
-            <column name="thing_name" value="doMath"/>
-            <column name="thing_kind" value="about 2 weeks"/>
-            <column name="user_id" value="2"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

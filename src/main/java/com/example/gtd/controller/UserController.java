@@ -1,20 +1,17 @@
 package com.example.gtd.controller;
 
 
-import com.example.gtd.dao.entity.Role;
 import com.example.gtd.dao.entity.User;
-import com.example.gtd.dao.repo.RoleRepo;
-import com.example.gtd.dao.repo.UserRepo;
+import com.example.gtd.dto.RoleDTO;
 import com.example.gtd.dto.UserDTO;
-import com.example.gtd.mapper.UserMapper;
-import com.example.gtd.services.RoleService;
-import com.example.gtd.services.UserService;
+import com.example.gtd.service.mapper.UserMapper;
+import com.example.gtd.service.dao.UserService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -23,30 +20,40 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private UserMapper userMapper;
+
     @Autowired
-    private RoleService roleService;
-
-    @PostMapping("/register")
-    public String register(@RequestBody UserDTO userDTO) {
-
-        System.out.println(userDTO);
-        User user = userMapper.toEntity(userDTO);
-        System.out.println(user);
-        Optional<User> new_user = userService.findUserByUsername(user.getUsername());
-        if(new_user.isEmpty()) {
-            userService.save(user);
-            return "Succesfully registred";
-        }
-        else {
-            return "Already in db";
-        }
-    }
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping()
     public List<User> findAll() {
         return userService.findAll();
     }
 
+    @PostMapping("/update")
+    public String update(@RequestBody UserDTO userDTO) {
+        if(userService.findById(userDTO.getId()).isPresent()) {
+            userService.update(userMapper.toEntity(userDTO));
+            return "updated";
+        }
+        else {
+            return "role not found";
+        }
+
+    }
+
+    @PostMapping("/registration")
+    public String registrate(@RequestBody UserDTO userDTO) {
+        User user = userMapper.toEntity(userDTO);
+        if(userService.findUserByUsername(user.getUsername()).isEmpty()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userService.save(user);
+            return "registrated";
+        }
+        else {
+            return "Already in db";
+        }
+    }
 }
