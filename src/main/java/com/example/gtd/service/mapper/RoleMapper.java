@@ -9,11 +9,7 @@ import org.springframework.stereotype.Service;
 @Mapper(componentModel = "spring")
 @Service
 public interface RoleMapper {
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "rolename", target = "rolename")
-    RoleDTO toDto(Role source);
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "rolename", target = "rolename")
+    RoleDTO toDto(Role source);
     Role toEntity(RoleDTO source);
 }

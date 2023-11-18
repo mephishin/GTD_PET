@@ -11,7 +11,9 @@ spring:
     hibernate:
       ddlAuto: none
     properties:
-      hibernate.default_schema: thing
+      hibernate:
+        default_schema: thing
+        enable_lazy_load_no_trans: true
     openInView: false
 
 
@@ -21,3 +23,5 @@ spring:
   liquibase:
     changeLog: classpath:/db.changelog\changelog-master.xml
     liquibaseSchema: thing
+
+

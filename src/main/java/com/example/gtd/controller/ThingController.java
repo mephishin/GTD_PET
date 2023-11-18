@@ -1,52 +1,89 @@
-package com.example.gtd.controller;
-
-
-import com.example.gtd.dao.entity.Thing;
-import com.example.gtd.dto.ThingDTO;
-import com.example.gtd.dto.UserDTO;
-import com.example.gtd.service.mapper.ThingMapper;
-import com.example.gtd.service.dao.ThingService;
-import lombok.Data;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-@RestController
-@Data
-public class ThingController {
-
-    private final ThingService thingService;
-    private final ThingMapper thingMapper;
-
-    @GetMapping("/thing")
-    public List<ThingDTO> findAll() {
-        return thingService.findAll().stream().map(thingMapper::toDto).collect(Collectors.toList());
-    }
-
-    @GetMapping("/thing/{id}")
-    public ResponseEntity<ThingDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.of(thingService.findById(id).map(thingMapper::toDto));
-    }
-
-    @PostMapping("/thing")
-    public ThingDTO create(@RequestBody ThingDTO thingDto) {
-        System.out.println(thingDto);
-        Thing persistedThing = thingService.save(thingMapper.toEntity(thingDto));
-        System.out.println(persistedThing);
-        return thingMapper.toDto(persistedThing);
-    }
-
-    @PostMapping("/update")
-    public String update(@RequestBody ThingDTO thingDTO) {
-        if(thingService.findById(thingDTO.getId()).isPresent()) {
-            thingService.update(thingMapper.toEntity(thingDTO));
-            return "updated";
-        }
-        else {
-            return "role not found";
-        }
-
-    }
-}
+//package com.example.gtd.controller;
+//
+//
+//import com.example.gtd.customException.NotFoundInDbException;
+//import com.example.gtd.dao.entity.Thing;
+//import com.example.gtd.dto.ThingDTO;
+//import com.example.gtd.service.mapper.ThingMapper;
+//import com.example.gtd.service.dao.ThingDAO;
+//import jakarta.validation.Valid;
+//import lombok.Data;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.web.bind.annotation.*;
+//
+//import java.util.List;
+//import java.util.Map;
+//import java.util.stream.Collectors;
+//
+//@RestController
+//@Data
+//@RequestMapping("/thing")
+//public class ThingController {
+//
+//    private final ThingDAO thingService;
+//    private final ThingMapper thingMapper;
+//
+//    @GetMapping()
+//    public ResponseEntity<List<ThingDTO>> get() {
+//        return new ResponseEntity<>(thingService.findAll().stream().
+//                map(thingMapper::toDto).collect(Collectors.toList()),
+//                HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/{id}")
+//    public ResponseEntity<ThingDTO> getById(@PathVariable Long id) {
+//        if(thingService.findById(id).isPresent()) {
+//            return new ResponseEntity<>(
+//                    thingService.findById(id).map(thingMapper::toDto).get(),
+//                    HttpStatus.OK);
+//        }
+//        else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//
+//    }
+//
+//    @PostMapping()
+//    public ResponseEntity<ThingDTO> post(@Valid @RequestBody ThingDTO thingDto) throws NotFoundInDbException {
+//        Thing persistedThing = thingService.save(thingMapper.toEntity(thingDto));
+//        return new ResponseEntity<>(thingMapper.toDto(persistedThing),
+//                HttpStatus.CREATED);
+//    }
+//
+//    @PutMapping("/{id}")
+//    public ResponseEntity<ThingDTO> put(@RequestBody ThingDTO thingDTO, @PathVariable Long id) throws NotFoundInDbException {
+//        thingDTO.setId(id);
+//        if(thingService.findById(thingDTO.getId()).isPresent()) {
+//            return new ResponseEntity<>(thingMapper.
+//                    toDto(thingService.update(thingMapper.toEntity(thingDTO))),
+//                    HttpStatus.CREATED);
+//        }
+//        else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//
+//    }
+//
+//    @PatchMapping("/{id}")
+//    public ResponseEntity<ThingDTO> patch(@PathVariable Long id, @RequestBody Map<Object, Object> fields) {
+//        System.out.println(fields);
+//        if(thingService.findById(id).isPresent()) {
+//            return new ResponseEntity<>(thingMapper.toDto(thingService.patch(id, fields)), HttpStatus.OK);
+//        }
+//        else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<String> delete(@PathVariable Long id) {
+//        if(thingService.findById(id).isPresent()) {
+//            thingService.delete(id);
+//            return new ResponseEntity<>("successfuly deleted", HttpStatus.OK);
+//        }
+//        else {
+//            return new ResponseEntity<>("not found in db", HttpStatus.NOT_FOUND);
+//        }
+//    }
+//}

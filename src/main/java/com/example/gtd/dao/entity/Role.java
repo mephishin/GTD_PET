@@ -1,10 +1,9 @@
 package com.example.gtd.dao.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Set;
 
@@ -13,6 +12,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Role {
 
     @Id
@@ -23,8 +23,12 @@ public class Role {
     @Column(name = "rolename", nullable = false)
     private String rolename;
 
-
+//    После того как убрал это в гет методах появилась инфа о ролях
 //    @ManyToMany(mappedBy = "roles")
 //    @Column(name = "user_id")
 //    private Set<User> users;
+
+    public Role(String rolename) {
+        this.rolename = rolename;
+    }
 }
