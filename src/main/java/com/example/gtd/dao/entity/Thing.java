@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Set;
 
 
@@ -37,6 +39,17 @@ public class Thing {
     private Set<User> user;
 
     @Column(name = "thing_kind", unique = false, nullable = false)
-    private String thingKind;
+    private ThingKind thingKind;
 
+    @Column(name = "create_date")
+    private LocalDate create_date;
+
+    @Column(name = "create_time")
+    private LocalTime create_time;
+
+    @Column(name = "is_finished")
+    private Boolean isFinished;
+
+    @Column(name = "is_high_priority")
+    private Boolean isHighPriority;
 }

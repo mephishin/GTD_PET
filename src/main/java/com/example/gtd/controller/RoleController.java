@@ -3,7 +3,6 @@ package com.example.gtd.controller;
 import com.example.gtd.customException.AlreadyInDbException;
 import com.example.gtd.customException.NotFoundInDbException;
 import com.example.gtd.dao.entity.Role;
-import com.example.gtd.dao.entity.User;
 import com.example.gtd.dto.RoleDTO;
 import com.example.gtd.dto.UserDTO;
 import com.example.gtd.service.mapper.RoleMapper;

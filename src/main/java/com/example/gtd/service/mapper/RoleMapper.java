@@ -3,7 +3,6 @@ package com.example.gtd.service.mapper;
 import com.example.gtd.dao.entity.Role;
 import com.example.gtd.dto.RoleDTO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.springframework.stereotype.Service;
 
 @Mapper(componentModel = "spring")

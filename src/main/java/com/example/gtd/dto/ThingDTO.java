@@ -1,6 +1,7 @@
 package com.example.gtd.dto;
 
 
+import com.example.gtd.dao.entity.ThingKind;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -26,5 +31,10 @@ public class ThingDTO {
 
     @Size(message = "thing can have only one author", min = 1, max = 1)
     private List<String> user;
+
+    private Boolean isFinished;
+    private Boolean isHighPriority;
+    private LocalDate create_date;
+    private LocalTime create_time;
 
 }

@@ -6,10 +6,8 @@ import com.example.gtd.dao.entity.Role;
 import com.example.gtd.dao.entity.User;
 import com.example.gtd.dto.UserDTO;
 import com.example.gtd.service.dao.RoleDAO;
-import lombok.Builder;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

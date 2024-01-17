@@ -7,7 +7,7 @@
             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
             http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
             http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
-
+    <property name="now" value="now()" dbms="postgresql"/>
     <changeSet id="create_thing_table" author="epishin">
         <createTable tableName="thing" schemaName="thing">
             <column name="thing_id" type="bigserial">
@@ -17,6 +17,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="thing_kind" type="varchar(200)"/>
+            <column name="create_time" type="time" defaultValueDate="${now}"/>
+            <column name="create_date" type="date" defaultValueDate="${now}"/>
+            <column name="is_high_priority" type="boolean"/>
+            <column name="is_finished" type="boolean"/>
         </createTable>
     </changeSet>
     <changeSet id="create_user_and_role_table" author="epishin">

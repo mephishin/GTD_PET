@@ -8,10 +8,7 @@ import com.example.gtd.dao.repo.RoleRepo;
 import lombok.Data;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
